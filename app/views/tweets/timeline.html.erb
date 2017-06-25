@@ -1,0 +1,33 @@
+<ul class="cbp_tmtimeline">
+  <% @timelines.each do |timeline| %>
+    <% if timeline.source == "Twitter" then %>
+      <li>
+        <time class="cbp_tmtime" datetime=""><span><%= timeline.created_at_date %></span> <span><%= timeline.created_at_time %></span></time>
+        <%= if @fav.value == timeline.body %>
+        <!-- <%= form_tag(action: :cookie_fav_delete) do %>
+          <%= hidden_field :fav, :set %>
+          <%= submit_tag "お気に入りを解除"  %> -->
+        <% else %>
+          <%= form_tag(action: :cookie_fav) do %>
+            <%= hidden_field :fav, :set %>
+            <%= submit_tag "お気に入り"  %>
+          <% end %>
+        <% end %>
+        <div class="cbp_tmicon cbp_tmicon-twitter"></div>
+        <div class="cbp_tmlabel">
+          <h2><%= "@" + timeline.user %></h2>
+          <p><%= timeline.body %></p>
+        </div>
+      </li>
+    <% else %>
+      <li>
+        <time class="cbp_tmtime" datetime=""><span><%= timeline.created_at_date %></span> <span><%= timeline.created_at_time %></span></time>
+        <div class="cbp_tmicon cbp_tmicon-googlenews"></div>
+        <div class="cbp_tmlabel">
+          <h2><%= timeline.author %></h2>
+          <p><%= timeline.body %></p>
+        </div>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
