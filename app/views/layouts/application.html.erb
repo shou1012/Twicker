@@ -2,12 +2,9 @@
 <html>
   <head>
     <title>Twicker</title>
-    <%= csrf_meta_tags %>
-
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <meta name="viewport" content="width=device-width,user-scalable=no,maximum-scale=1" />
+    <%= stylesheet_link_tag "application", :media => "all" %>
   </head>
-
   <body>
     <%= yield %>
   </body>
