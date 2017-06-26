@@ -12,12 +12,29 @@ class TweetsController < ApplicationController
     @timelines.concat(tweetTimeline)
     @timelines.concat(newsTimeline)
     @timelines.sort_by! {|timeline| timeline.created_at }
+    @timelines.reverse!
 
-    cookie()
-
+    favorites = @user.favorite
+    @timelines.each do |timeline|
+      timeline.is_liked = favorites.exists?(timeline_source: timeline.source, timeline_id: timeline.id)
+    end
     render action: "timeline"
   end
 
+  def favorite
+    @user.favorite.create(timeline_id: params[:timeline_id], timeline_source: params[:timeline_source])
+    redirect_to '/'
+  end
+
+  def unfavorite
+    favorite = @user.favorite.where(timeline_id: params[:timeline_id], timeline_source: params[:timeline_source]).first
+    if favorite
+      favorite.destroy
+    end
+    redirect_to '/'
+  end
+
+  private
   def loadTweets
     client = Twitter::REST::Client.new do |config|
       config.consumer_key        = "KVsIwdklDohJ7Jx3yKJgS4mXv"
@@ -26,9 +43,10 @@ class TweetsController < ApplicationController
       config.access_token_secret = "n1FJAXvt8eaHM5pVZIthC3WYIac7BL4FasUsQSgV7Ian8"
     end
 
-    tweets = client.search("vasily", lang: "ja")
+    tweets = client.search("vasily", lang: "ja").take(15).collect
     timelines = tweets.map do |tweet|
       timeline = Timeline.new
+      timeline.id = tweet.id
       timeline.body = tweet.text
       date = tweet.created_at
       timeline.created_at = date
@@ -55,6 +73,7 @@ class TweetsController < ApplicationController
       articles = result['articles'].select { |article| article['publishedAt'] != nil }
       timelines = articles.map do |news|
         timeline = Timeline.new
+        timeline.id = news['url']
         timeline.body = news['title']
         date = news['publishedAt'].to_date
         timeline.created_at = date
@@ -67,13 +86,4 @@ class TweetsController < ApplicationController
     end
     timelines
   end
-
-  def cookie
-    @fav = cookies[:fav]
-  end
-
-  def cookie_rec
-    cookies[:fav] = { value: timeline.body, expires: 3.months.from_now, http_only: true }
-  end
-
 end

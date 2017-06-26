@@ -100,6 +100,13 @@
 	border-right-color: #6cbfee;
 }
 
+.cbp_tmtimeline > li .cbp_tmicon-favorite{
+	width: 60px;
+	line-height: 40px;
+	margin-left: auto;
+}
+
+
 /* The icons */
 .cbp_tmtimeline > li .cbp_tmicon {
 	width: 40px;
@@ -129,16 +136,9 @@
 }
 
 .cbp_tmicon-googlenews:before {
-	content: "\e958";
+	content: "\ea8a";
 }
 
-.cbp_tmicon-mail:before {
-	content: "\e002";
-}
-
-.cbp_tmicon-earth:before {
-	content: "\e003";
-}
 
 /* Example Media Queries */
 @media screen and (max-width: 65.375em) {
@@ -164,7 +164,7 @@
 	}
 
 	.cbp_tmtimeline > li .cbp_tmlabel {
-		margin: 0 0 30px 0;
+		margin: 10px 0 30px 0;
 		padding: 1em;
 		font-weight: 400;
 		font-size: 95%;
@@ -185,8 +185,8 @@
 
 	.cbp_tmtimeline > li .cbp_tmicon {
 		position: relative;
-		float: right;
+		float: left;
 		left: auto;
-		margin: -55px 5px 0 0px;
+		margin: -55px 5px 0 10px;
 	}
 }
