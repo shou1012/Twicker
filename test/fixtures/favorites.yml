@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  timeline_source: MyString
+  timeline_id: MyString
+  string: MyString
+  timestamp: MyString
+
+two:
+  user_id: 1
+  timeline_source: MyString
+  timeline_id: MyString
+  string: MyString
+  timestamp: MyString
