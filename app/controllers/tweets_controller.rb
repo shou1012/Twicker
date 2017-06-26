@@ -37,10 +37,10 @@ class TweetsController < ApplicationController
   private
   def loadTweets
     client = Twitter::REST::Client.new do |config|
-      config.consumer_key        = "KVsIwdklDohJ7Jx3yKJgS4mXv"
-      config.consumer_secret     = "0mJciEOWhIO2fiqbAfGW7KlGljTpNJITyIDgGdnHJ0ZLai30zv"
-      config.access_token        = "1192963789-Qzh56bzHDflYWuo8yUIVp1SHVCmgxDs8oW3CKEf"
-      config.access_token_secret = "n1FJAXvt8eaHM5pVZIthC3WYIac7BL4FasUsQSgV7Ian8"
+      config.consumer_key        = Rails.application.secrets.twitter_api_key
+      config.consumer_secret     = Rails.application.secrets.twitter_api_secret
+      config.access_token        = Rails.application.secrets.twitter_access_token
+      config.access_token_secret = Rails.application.secrets.twitter_access_token_secret
     end
 
     tweets = client.search("vasily", lang: "ja").take(15).collect
