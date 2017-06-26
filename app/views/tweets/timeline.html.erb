@@ -3,15 +3,22 @@
     <% if timeline.source == "Twitter" then %>
       <li>
         <time class="cbp_tmtime" datetime=""><span><%= timeline.created_at_date %></span> <span><%= timeline.created_at_time %></span></time>
-        <%= if @fav.value == timeline.body %>
-        <!-- <%= form_tag(action: :cookie_fav_delete) do %>
-          <%= hidden_field :fav, :set %>
-          <%= submit_tag "お気に入りを解除"  %> -->
-        <% else %>
-          <%= form_tag(action: :cookie_fav) do %>
-            <%= hidden_field :fav, :set %>
-            <%= submit_tag "お気に入り"  %>
+        <% if timeline.is_liked then %>
+        <div class="cbp_tmicon-favorite">
+          <%= form_tag("/favorites", method: "delete") do %>
+            <%= hidden_field_tag 'timeline_id', timeline.id %>
+            <%= hidden_field_tag 'timeline_source', timeline.source %>
+            <%= image_submit_tag("favorited.png")   %>
           <% end %>
+        </div>
+        <% else %>
+        <div class="cbp_tmicon-favorite">
+          <%= form_tag("/favorites", method: "post") do %>
+            <%= hidden_field_tag 'timeline_id', timeline.id %>
+            <%= hidden_field_tag 'timeline_source', timeline.source %>
+            <%= image_submit_tag("favorite.png")  %>
+          <% end %>
+        </div>
         <% end %>
         <div class="cbp_tmicon cbp_tmicon-twitter"></div>
         <div class="cbp_tmlabel">
@@ -20,14 +27,31 @@
         </div>
       </li>
     <% else %>
-      <li>
-        <time class="cbp_tmtime" datetime=""><span><%= timeline.created_at_date %></span> <span><%= timeline.created_at_time %></span></time>
-        <div class="cbp_tmicon cbp_tmicon-googlenews"></div>
-        <div class="cbp_tmlabel">
-          <h2><%= timeline.author %></h2>
-          <p><%= timeline.body %></p>
+    <li>
+      <time class="cbp_tmtime" datetime=""><span><%= timeline.created_at_date %></span> <span><%= timeline.created_at_time %></span></time>
+      <% if timeline.is_liked then %>
+       <div class="cbp_tmicon-favorite">
+        <%= form_tag("/favorites", method: "delete") do %>
+          <%= hidden_field_tag 'timeline_id', timeline.id %>
+          <%= hidden_field_tag 'timeline_source', timeline.source %>
+          <%= image_submit_tag("favorited.png")   %>
+        <% end %>
         </div>
-      </li>
+      <% else %>
+        <div class="cbp_tmicon-favorite">
+        <%= form_tag("/favorites", method: "post") do %>
+          <%= hidden_field_tag 'timeline_id', timeline.id %>
+          <%= hidden_field_tag 'timeline_source', timeline.source %>
+          <%= image_submit_tag("favorite.png")  %>
+        </div>
+        <% end %>
+      <% end %>
+      <div class="cbp_tmicon cbp_tmicon-googlenews"></div>
+      <div class="cbp_tmlabel">
+        <h2><%= timeline.author %></h2>
+        <p><%= timeline.body %></p>
+      </div>
+    </li>
     <% end %>
   <% end %>
 </ul>
