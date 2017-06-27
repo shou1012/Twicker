@@ -75,7 +75,7 @@ class TweetsController < ApplicationController
         timeline = Timeline.new
         timeline.id = news['url']
         timeline.body = news['title']
-        date = news['publishedAt'].to_date
+        date = news['publishedAt'].to_time
         timeline.created_at = date
         timeline.created_at_date = date.strftime("%Y年 %m月 %d日")
         timeline.created_at_time = date.strftime("%X")
